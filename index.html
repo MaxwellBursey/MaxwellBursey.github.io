@@ -5,394 +5,517 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maxwell Bursey — Electrical Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,300&family=Cormorant:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-/* ═══════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════ */
 :root {
-  --bg:           #0c0e0d;
-  --bg-2:         #111412;
-  --bg-3:         #171b18;
-  --border:       #222825;
-  --border-hi:    #2e3830;
-  --text:         #d4d8d5;
-  --text-2:       #8a9490;
-  --text-3:       #556059;
-  --green:        #6db380;
-  --green-dim:    #4a7c59;
-  --green-muted:  #2a4033;
-  --green-glow:   rgba(109,179,128,0.07);
+  --black:        #0d0d0b;
+  --green-deep:   #152318;
+  --green-mid:    #1e3323;
+  --green-accent: #2c4a30;
+  --green-light:  #3d6b42;
+  --green-pale:   #e8f0e9;
+  --bone:         #f2ede4;
+  --bone-dark:    #e8e2d8;
+  --bone-darker:  #d4cec3;
+  --white:        #fafaf8;
+  --ink:          #1a1a17;
+  --ink-2:        #4a4a44;
+  --ink-3:        #7a7a72;
+  --ink-4:        #a8a89e;
 
-  --mono: 'DM Mono', monospace;
-  --display: 'DM Serif Display', serif;
-  --sans: 'DM Sans', sans-serif;
+  --display: 'Cormorant Garamond', serif;
+  --body: 'Jost', sans-serif;
 
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ═══════════════════════════════════════════
-   RESET + BASE
-═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   RESET
+═══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.6;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--body);
   font-weight: 300;
+  font-size: 15px;
+  line-height: 1.65;
   overflow-x: hidden;
-  /* PCB-style dot grid */
-  background-image: radial-gradient(circle, #1c221e 1px, transparent 1px);
-  background-size: 28px 28px;
 }
 
-a { color: var(--green); text-decoration: none; transition: color 0.2s; }
-a:hover { color: var(--text); }
+/* Grain overlay for parchment texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
 
-/* ═══════════════════════════════════════════
-   LOAD ANIMATIONS
-═══════════════════════════════════════════ */
+a { color: inherit; text-decoration: none; }
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transform: translateY(18px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
-.reveal-d1 { transition-delay: 0.05s; }
-.reveal-d2 { transition-delay: 0.12s; }
-.reveal-d3 { transition-delay: 0.19s; }
-.reveal-d4 { transition-delay: 0.26s; }
-.reveal-d5 { transition-delay: 0.33s; }
+.reveal.visible { opacity: 1; transform: none; }
+.d1 { transition-delay: 0.06s; }
+.d2 { transition-delay: 0.13s; }
+.d3 { transition-delay: 0.20s; }
+.d4 { transition-delay: 0.27s; }
+.d5 { transition-delay: 0.34s; }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════
    NAV
-═══════════════════════════════════════════ */
+═══════════════════════════════════════ */
 nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 48px;
-  height: 60px;
-  background: rgba(12,14,13,0.88);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  padding: 0 56px;
+  height: 64px;
+  background: rgba(242, 237, 228, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--bone-darker);
 }
 
-.nav-logo {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--text-2);
-  letter-spacing: 0.04em;
+.nav-mark {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--green-deep);
+  letter-spacing: 0.02em;
 }
-.nav-logo span { color: var(--green); }
+.nav-mark span {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink-3);
+}
 
 .nav-links {
   display: flex;
-  gap: 32px;
+  gap: 36px;
   list-style: none;
 }
 .nav-links a {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-family: var(--body);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-2);
+  color: var(--ink-3);
   transition: color 0.2s;
+  position: relative;
 }
-.nav-links a:hover { color: var(--green); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--green-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+.nav-links a:hover { color: var(--green-deep); }
+.nav-links a:hover::after { transform: scaleX(1); }
 
-/* ═══════════════════════════════════════════
-   SECTION SHELL
-═══════════════════════════════════════════ */
-section {
-  max-width: 1100px;
+/* ═══════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════ */
+.section-wrap {
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 120px 48px;
+  padding: 112px 56px;
+  position: relative;
+}
+
+/* Vertical accent rule */
+.section-wrap::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, var(--green-accent) 20%, var(--green-accent) 80%, transparent);
+  opacity: 0.18;
 }
 
 .section-label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  gap: 16px;
+  font-family: var(--body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--green-dim);
-  margin-bottom: 40px;
+  color: var(--green-accent);
+  margin-bottom: 52px;
 }
-.section-label::after {
+.section-label::before {
   content: '';
-  flex: 1;
+  width: 32px;
   height: 1px;
-  background: var(--border);
-  max-width: 200px;
+  background: var(--green-accent);
+  flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════
    HERO
-═══════════════════════════════════════════ */
+═══════════════════════════════════════ */
 #hero {
+  background: var(--bone);
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 120px;
-  padding-bottom: 80px;
+  align-items: flex-end;
   position: relative;
+  overflow: hidden;
 }
 
-.hero-eyebrow {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 20px;
+/* Large decorative background letter */
+#hero::before {
+  content: 'B';
+  position: absolute;
+  right: -0.05em;
+  bottom: -0.15em;
+  font-family: var(--display);
+  font-size: 52vw;
+  font-weight: 300;
+  color: var(--green-deep);
+  opacity: 0.04;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
 }
-.hero-eyebrow::before {
-  content: '> ';
-  opacity: 0.5;
+
+.hero-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 56px 100px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 80px;
+  align-items: end;
+}
+
+.hero-left {}
+
+.hero-sup {
+  font-family: var(--body);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-sup::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--green-accent);
 }
 
 .hero-name {
   font-family: var(--display);
-  font-size: clamp(52px, 8vw, 96px);
-  line-height: 0.95;
+  font-size: clamp(60px, 9vw, 110px);
+  font-weight: 300;
+  line-height: 0.92;
   letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 28px;
+  color: var(--black);
+  margin-bottom: 36px;
 }
-.hero-name em {
+.hero-name .italic {
   font-style: italic;
-  color: var(--text-2);
+  color: var(--green-deep);
+  font-weight: 300;
 }
 
-.hero-desc {
-  max-width: 520px;
-  font-size: 16px;
+.hero-role {
+  font-family: var(--body);
+  font-size: 13px;
   font-weight: 300;
-  color: var(--text-2);
-  line-height: 1.7;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
   margin-bottom: 44px;
+  max-width: 480px;
+  line-height: 1.75;
 }
 
 .hero-ctas {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.btn-primary {
+.btn-dark {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 11px 26px;
-  background: var(--green);
-  color: #0c0e0d;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  gap: 9px;
+  padding: 13px 30px;
+  background: var(--green-deep);
+  color: var(--bone);
+  font-family: var(--body);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  border: 1px solid var(--green);
+  border: 1px solid var(--green-deep);
+  transition: background 0.25s, color 0.25s, transform 0.15s;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, transform 0.15s;
 }
-.btn-primary:hover {
-  background: transparent;
-  color: var(--green);
+.btn-dark:hover {
+  background: var(--black);
+  border-color: var(--black);
   transform: translateY(-1px);
 }
 
-.btn-secondary {
+.btn-outline {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 11px 26px;
+  gap: 9px;
+  padding: 13px 30px;
   background: transparent;
-  color: var(--text-2);
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  font-family: var(--body);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  border: 1px solid var(--border-hi);
+  border: 1px solid var(--bone-darker);
+  transition: border-color 0.25s, color 0.25s, transform 0.15s;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s, transform 0.15s;
 }
-.btn-secondary:hover {
-  border-color: var(--green-dim);
-  color: var(--green);
+.btn-outline:hover {
+  border-color: var(--green-accent);
+  color: var(--green-deep);
   transform: translateY(-1px);
+}
+
+/* Hero right panel */
+.hero-right {
+  padding-bottom: 8px;
 }
 
 .hero-stats {
-  display: flex;
-  gap: 48px;
-  margin-top: 72px;
-  padding-top: 40px;
-  border-top: 1px solid var(--border);
+  border: 1px solid var(--bone-darker);
+  background: var(--white);
 }
 
-.stat-value {
+.hero-stat {
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--bone-darker);
+}
+.hero-stat:last-child { border-bottom: none; }
+
+.stat-num {
   font-family: var(--display);
-  font-size: 36px;
-  color: var(--text);
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--green-deep);
   line-height: 1;
   margin-bottom: 4px;
 }
-.stat-value span {
-  color: var(--green);
+.stat-num sup {
+  font-size: 18px;
+  vertical-align: super;
+  font-weight: 400;
 }
-.stat-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+.stat-desc {
+  font-family: var(--body);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--ink-4);
 }
 
-/* ═══════════════════════════════════════════
-   ABOUT
-═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   ABOUT — bone/dark green split
+═══════════════════════════════════════ */
 #about {
-  border-top: 1px solid var(--border);
+  background: var(--white);
+  border-top: 1px solid var(--bone-darker);
+  border-bottom: 1px solid var(--bone-darker);
 }
 
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 64px;
   align-items: start;
 }
 
+.about-divider {
+  background: var(--bone-darker);
+  align-self: stretch;
+}
+
 .about-text p {
-  color: var(--text-2);
-  line-height: 1.8;
-  margin-bottom: 16px;
+  color: var(--ink-2);
+  line-height: 1.85;
+  font-size: 14.5px;
+  margin-bottom: 18px;
   font-weight: 300;
 }
 .about-text p:last-child { margin-bottom: 0; }
 
-.about-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+.about-pull {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--green-deep);
+  line-height: 1.5;
+  border-left: 3px solid var(--green-accent);
+  padding-left: 24px;
+  margin-bottom: 28px;
 }
 
+.detail-table { width: 100%; }
 .detail-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 11px 0;
+  border-bottom: 1px solid var(--bone-darker);
 }
-.detail-row:first-child { border-top: 1px solid var(--border); }
-
+.detail-row:first-child { border-top: 1px solid var(--bone-darker); }
 .detail-key {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--ink-4);
 }
 .detail-val {
   font-size: 13.5px;
   font-weight: 400;
-  color: var(--text);
+  color: var(--ink);
   text-align: right;
 }
-.detail-val.green { color: var(--green); }
+.detail-val.accent { color: var(--green-deep); font-weight: 500; }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════
    PROJECTS
-═══════════════════════════════════════════ */
+═══════════════════════════════════════ */
 #projects {
-  border-top: 1px solid var(--border);
+  background: var(--bone);
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.projects-list {
+  display: flex;
+  flex-direction: column;
   gap: 2px;
 }
 
-.project-card {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  padding: 32px;
+.project-item {
+  background: var(--white);
+  border: 1px solid var(--bone-darker);
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 0;
+  transition: border-color 0.25s;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.25s, background 0.25s;
-  cursor: default;
 }
-.project-card::before {
+.project-item::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--green-dim);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s var(--ease-out);
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--green-deep);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s var(--ease);
 }
-.project-card:hover {
-  border-color: var(--border-hi);
-  background: var(--bg-3);
-}
-.project-card:hover::before {
-  transform: scaleX(1);
+.project-item:hover { border-color: var(--bone-darker); }
+.project-item:hover::after { transform: scaleY(1); }
+
+.project-item.featured {
+  grid-template-columns: 80px 1fr 1fr;
 }
 
-.project-card.featured {
-  grid-column: span 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
+.project-num-col {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 0 32px;
+  border-right: 1px solid var(--bone-darker);
+  background: var(--bone);
+}
+.project-num-col span {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-4);
+  letter-spacing: 0.04em;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
 }
 
-.project-num {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--text-3);
-  margin-bottom: 16px;
+.project-body {
+  padding: 32px 36px;
+}
+
+.project-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  margin-bottom: 12px;
+}
+.project-flag::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--green-accent);
 }
 
 .project-title {
   font-family: var(--display);
-  font-size: 22px;
-  color: var(--text);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--black);
   line-height: 1.2;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .project-date {
-  font-family: var(--mono);
   font-size: 11px;
-  color: var(--green-dim);
-  margin-bottom: 14px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--ink-4);
+  margin-bottom: 16px;
 }
 
 .project-desc {
   font-size: 13.5px;
-  color: var(--text-2);
-  line-height: 1.7;
+  color: var(--ink-2);
+  line-height: 1.75;
   font-weight: 300;
   margin-bottom: 20px;
 }
@@ -401,227 +524,240 @@ section {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 .tag {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  padding: 3px 9px;
-  border: 1px solid var(--green-muted);
-  color: var(--green-dim);
-  background: rgba(42,64,51,0.3);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--bone-darker);
+  color: var(--ink-3);
+  background: var(--bone);
 }
 
 .project-links {
   display: flex;
-  gap: 16px;
+  gap: 20px;
 }
-.project-link {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+.proj-link {
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-3);
-  transition: color 0.2s;
+  color: var(--ink-3);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
 }
-.project-link:hover { color: var(--green); }
-.project-link svg { width: 12px; height: 12px; }
+.proj-link:hover {
+  color: var(--green-deep);
+  border-bottom-color: var(--green-deep);
+}
 
 /* image placeholder */
-.project-img-placeholder {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: var(--bg);
-  border: 1px dashed var(--border-hi);
+.project-visual {
+  border-left: 1px solid var(--bone-darker);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  color: var(--text-3);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bone);
+  color: var(--ink-4);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 24px;
 }
-.project-img-placeholder svg {
-  width: 28px;
-  height: 28px;
-  opacity: 0.3;
+.project-visual svg {
+  width: 32px; height: 32px;
+  opacity: 0.25;
 }
 
-/* ═══════════════════════════════════════════
-   SKILLS
-═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   SKILLS — dark green band
+═══════════════════════════════════════ */
 #skills {
-  border-top: 1px solid var(--border);
+  background: var(--green-deep);
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
+#skills .section-label { color: rgba(242,237,228,0.45); }
+#skills .section-label::before { background: rgba(242,237,228,0.3); }
+#skills .section-wrap::before { opacity: 0.06; background: var(--bone); }
 
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  gap: 1px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.07);
 }
 
 .skill-group {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  padding: 28px;
+  background: var(--green-deep);
+  padding: 32px 36px;
 }
 
-.skill-group-label {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
+.sg-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--green-dim);
-  margin-bottom: 18px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
+  color: rgba(242,237,228,0.4);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.skill-list {
+.sg-items {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
-.skill-list li {
-  font-size: 13.5px;
-  color: var(--text-2);
+.sg-items li {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(242,237,228,0.78);
   display: flex;
   align-items: center;
-  gap: 9px;
-  font-weight: 300;
+  gap: 10px;
 }
-.skill-list li::before {
+.sg-items li::before {
   content: '';
-  width: 4px;
-  height: 4px;
-  background: var(--green-dim);
+  width: 3px; height: 3px;
+  background: rgba(242,237,228,0.35);
   flex-shrink: 0;
 }
 
-/* certifications strip */
-.certs-strip {
-  margin-top: 2px;
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  padding: 24px 28px;
+.certs-row {
+  margin-top: 1px;
+  background: var(--green-mid);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 20px 36px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
 }
-.cert-badge {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  padding: 5px 12px;
-  border: 1px solid var(--border-hi);
-  color: var(--text-2);
-  background: var(--bg);
-}
-
-/* ═══════════════════════════════════════════
-   EXPERIENCE
-═══════════════════════════════════════════ */
-#experience {
-  border-top: 1px solid var(--border);
-}
-
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-left: 1px solid var(--border);
-  margin-left: 8px;
-}
-
-.timeline-item {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 40px;
-  padding: 0 0 44px 40px;
-  position: relative;
-}
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -5px;
-  top: 6px;
-  width: 9px;
-  height: 9px;
-  background: var(--bg);
-  border: 1px solid var(--green-dim);
-}
-.timeline-item:last-child { padding-bottom: 0; }
-
-.timeline-meta {
-  padding-top: 4px;
-}
-.timeline-date {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--green-dim);
-  margin-bottom: 6px;
-}
-.timeline-type {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
+.cert-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: rgba(242,237,228,0.35);
+  margin-right: 8px;
+}
+.cert {
+  font-size: 10.5px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: rgba(242,237,228,0.6);
+  padding: 5px 14px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-.timeline-content {}
-.timeline-role {
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--text);
-  margin-bottom: 3px;
+/* ═══════════════════════════════════════
+   EXPERIENCE
+═══════════════════════════════════════ */
+#experience {
+  background: var(--white);
+  border-top: 1px solid var(--bone-darker);
 }
-.timeline-org {
+
+.exp-list { display: flex; flex-direction: column; }
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 180px 1px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--bone-darker);
+  padding: 40px 0;
+  transition: background 0.2s;
+}
+.exp-item:first-child { border-top: 1px solid var(--bone-darker); }
+.exp-item:hover { background: var(--bone); margin: 0 -8px; padding: 40px 8px; }
+
+.exp-meta { padding-right: 32px; }
+.exp-date {
+  font-family: var(--display);
   font-size: 13px;
-  color: var(--text-3);
-  font-style: italic;
-  margin-bottom: 12px;
-  font-family: var(--sans);
   font-weight: 300;
+  font-style: italic;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin-bottom: 8px;
 }
-.timeline-bullets {
+.exp-type {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+}
+
+.exp-rule {
+  width: 1px;
+  background: var(--bone-darker);
+  margin: 0 40px;
+}
+
+.exp-content {}
+.exp-role {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+.exp-org {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.exp-bullets {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
 }
-.timeline-bullets li {
+.exp-bullets li {
   font-size: 13.5px;
-  color: var(--text-2);
-  line-height: 1.65;
-  padding-left: 14px;
-  position: relative;
+  color: var(--ink-2);
+  line-height: 1.7;
   font-weight: 300;
+  padding-left: 16px;
+  position: relative;
 }
-.timeline-bullets li::before {
-  content: '–';
+.exp-bullets li::before {
+  content: '—';
   position: absolute;
   left: 0;
-  color: var(--text-3);
+  color: var(--ink-4);
+  font-size: 11px;
+  top: 3px;
 }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════
    CONTACT
-═══════════════════════════════════════════ */
+═══════════════════════════════════════ */
 #contact {
-  border-top: 1px solid var(--border);
+  background: var(--black);
 }
+#contact .section-label { color: rgba(242,237,228,0.3); }
+#contact .section-label::before { background: rgba(242,237,228,0.2); }
+#contact .section-wrap::before { opacity: 0; }
 
-.contact-inner {
+.contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
@@ -630,135 +766,155 @@ section {
 
 .contact-heading {
   font-family: var(--display);
-  font-size: clamp(32px, 5vw, 54px);
-  line-height: 1.1;
-  color: var(--text);
-  margin-bottom: 20px;
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--bone);
+  margin-bottom: 24px;
+  letter-spacing: -0.01em;
 }
-.contact-heading em { color: var(--green); font-style: italic; }
+.contact-heading em {
+  font-style: italic;
+  color: rgba(242,237,228,0.45);
+}
 
 .contact-sub {
-  font-size: 15px;
-  color: var(--text-2);
-  line-height: 1.7;
-  margin-bottom: 36px;
+  font-size: 14px;
   font-weight: 300;
+  color: rgba(242,237,228,0.5);
+  line-height: 1.8;
+  margin-bottom: 40px;
 }
 
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.contact-link-row {
+.contact-rows { display: flex; flex-direction: column; }
+.contact-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   transition: padding-left 0.2s;
+  cursor: pointer;
 }
-.contact-link-row:first-child { border-top: 1px solid var(--border); }
-.contact-link-row:hover { padding-left: 6px; }
-
-.contact-link-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+.contact-row:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+.contact-row:hover { padding-left: 8px; }
+.cr-key {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: rgba(242,237,228,0.3);
 }
-.contact-link-value {
-  font-size: 14px;
-  color: var(--text);
-  font-weight: 400;
+.cr-val {
+  font-size: 13.5px;
+  font-weight: 300;
+  color: rgba(242,237,228,0.7);
+  transition: color 0.2s;
 }
-.contact-link-value:hover { color: var(--green); }
+.contact-row:hover .cr-val { color: var(--bone); }
 
-.contact-right {
-  padding-top: 8px;
+.contact-right { padding-top: 6px; }
+
+.avail-card {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 28px 32px;
+  margin-bottom: 24px;
 }
-.availability-badge {
-  display: inline-flex;
+.avail-dot-row {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: 1px solid var(--green-muted);
-  background: rgba(42,64,51,0.2);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--green);
-  margin-bottom: 32px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
-.availability-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--green);
+.avail-dot {
+  width: 7px; height: 7px;
+  background: #5aad6e;
   border-radius: 50%;
-  animation: pulse 2s infinite;
+  animation: blink 2.2s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+.avail-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #5aad6e;
+}
+.avail-text {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(242,237,228,0.6);
+  line-height: 1.4;
 }
 
 .contact-note {
-  font-size: 13px;
-  color: var(--text-3);
-  line-height: 1.7;
+  font-size: 12px;
   font-weight: 300;
+  color: rgba(242,237,228,0.28);
+  line-height: 1.75;
   font-style: italic;
 }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════
    FOOTER
-═══════════════════════════════════════════ */
+═══════════════════════════════════════ */
 footer {
-  border-top: 1px solid var(--border);
-  padding: 28px 48px;
-  max-width: 1100px;
-  margin: 0 auto;
+  background: var(--black);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 24px 56px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 100%;
 }
-.footer-copy {
-  font-family: var(--mono);
+.foot-copy {
   font-size: 11px;
-  color: var(--text-3);
+  font-weight: 300;
   letter-spacing: 0.06em;
+  color: rgba(242,237,228,0.2);
 }
-.footer-copy span { color: var(--green-dim); }
-
-.footer-built {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-  letter-spacing: 0.05em;
+.foot-copy strong {
+  color: rgba(242,237,228,0.45);
+  font-weight: 400;
 }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════
    RESPONSIVE
-═══════════════════════════════════════════ */
-@media (max-width: 900px) {
-  section { padding: 80px 24px; }
-  nav { padding: 0 24px; }
-  footer { padding: 24px; }
+═══════════════════════════════════════ */
+@media (max-width: 960px) {
+  .section-wrap { padding: 80px 28px; }
+  nav { padding: 0 28px; }
+  footer { padding: 20px 28px; }
 
-  .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .projects-grid { grid-template-columns: 1fr; }
-  .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 28px 80px; }
+  .hero-right { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+  .hero-stat { border-bottom: none; border-right: 1px solid var(--bone-darker); }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stats { display: contents; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-divider { display: none; }
+
+  .project-item { grid-template-columns: 60px 1fr; }
+  .project-item.featured { grid-template-columns: 60px 1fr; }
+  .project-visual { display: none; }
+
   .skills-grid { grid-template-columns: 1fr 1fr; }
-  .contact-inner { grid-template-columns: 1fr; gap: 48px; }
-  .timeline-item { grid-template-columns: 1fr; gap: 8px; }
-  .hero-stats { gap: 28px; flex-wrap: wrap; }
+
+  .exp-item { grid-template-columns: 1fr; gap: 16px; }
+  .exp-rule { display: none; }
+  .exp-meta { padding-right: 0; }
+
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
   .nav-links { display: none; }
 }
 
 @media (max-width: 600px) {
   .skills-grid { grid-template-columns: 1fr; }
-  .hero-name { font-size: 44px; }
+  .hero-name { font-size: 52px; }
+  .hero-right { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -766,7 +922,7 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><span>mb</span> / portfolio</div>
+  <div class="nav-mark">Maxwell <span>Bursey</span></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -777,359 +933,324 @@ footer {
 </nav>
 
 <!-- HERO -->
-<section id="hero">
-  <div class="hero-eyebrow reveal">Electrical Engineering Co-op Student</div>
-  <h1 class="hero-name reveal reveal-d1">Maxwell<br><em>Bursey</em></h1>
-  <p class="hero-desc reveal reveal-d2">
-    Term 5 EE student at Memorial University of Newfoundland, focused on embedded systems, PCB design, and sensor integration. Currently seeking my next co-op placement.
-  </p>
-  <div class="hero-ctas reveal reveal-d3">
-    <a href="#projects" class="btn-primary">View Projects ↓</a>
-    <a href="Maxwell_Bursey_Resume_1Page.pdf" class="btn-secondary" target="_blank">Download Resume →</a>
+<div id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-sup reveal">Electrical Engineering — MUN Co-op</div>
+      <h1 class="hero-name reveal d1">
+        Maxwell<br>
+        <span class="italic">Bursey</span>
+      </h1>
+      <p class="hero-role reveal d2">
+        Fifth-term Electrical Engineering student at Memorial University of Newfoundland. Focused on embedded systems, PCB design, and sensor integration. Actively seeking co-op placement for 2026.
+      </p>
+      <div class="hero-ctas reveal d3">
+        <a href="#projects" class="btn-dark">View Projects</a>
+        <a href="Maxwell_Bursey_Resume_1Page.pdf" class="btn-outline" target="_blank">Download Resume →</a>
+      </div>
+    </div>
+    <div class="hero-right reveal d2">
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-num">3.87<sup>/4.0</sup></div>
+          <div class="stat-desc">Cumulative GPA</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">5<sup>/8</sup></div>
+          <div class="stat-desc">Terms Complete</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">5<sup>+</sup></div>
+          <div class="stat-desc">Projects</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">1</div>
+          <div class="stat-desc">Co-op Completed</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="hero-stats reveal reveal-d4">
-    <div>
-      <div class="stat-value">3.87<span>/4.0</span></div>
-      <div class="stat-label">Cumulative GPA</div>
-    </div>
-    <div>
-      <div class="stat-value">5<span>/8</span></div>
-      <div class="stat-label">Terms Complete</div>
-    </div>
-    <div>
-      <div class="stat-value">4<span>+</span></div>
-      <div class="stat-label">Engineering Projects</div>
-    </div>
-    <div>
-      <div class="stat-value">1</div>
-      <div class="stat-label">Co-op Completed</div>
-    </div>
-  </div>
-</section>
+</div>
 
 <!-- ABOUT -->
-<section id="about">
-  <div class="section-label reveal">About</div>
-  <div class="about-grid">
-    <div class="about-text reveal reveal-d1">
-      <p>
-        I'm a fifth-term Electrical Engineering student at Memorial University of Newfoundland, currently in the co-op stream. My work spans embedded systems, PCB design, and practical sensor integration — I'm drawn to projects that bridge the gap between hardware and real-world application.
-      </p>
-      <p>
-        My most recent co-op at MUN's QEII Library gave me end-to-end project ownership: scoping a usage-tracking system, prototyping circuits, reducing noise in classification logic, and delivering formal technical findings — all independently.
-      </p>
-      <p>
-        Outside of engineering, I've developed a strong foundation in high-stakes operations management and team leadership, skills I carry directly into technical roles.
-      </p>
-    </div>
-    <div class="about-details reveal reveal-d2">
-      <div class="detail-row">
-        <span class="detail-key">Status</span>
-        <span class="detail-val green">Seeking Co-op — 2026</span>
+<div id="about">
+  <div class="section-wrap">
+    <div class="section-label reveal">About</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-pull reveal">"End-to-end project ownership — from breadboard prototype to formal technical report."</p>
+        <p class="reveal d1">I'm a fifth-term Electrical Engineering student at Memorial University of Newfoundland, enrolled in the co-op stream. My work spans embedded systems, PCB design, and practical sensor integration — I'm drawn to projects where hardware meets real-world constraints.</p>
+        <p class="reveal d2">My most recent co-op at MUN's QEII Library gave me full project ownership: independently scoping a workstation usage-tracking system, prototyping and benchmarking sensing circuits, reducing noise in classification logic, and delivering formal technical findings to supervisors.</p>
+        <p class="reveal d3">Outside engineering, a background in high-stakes operations management and team leadership gives me communication and ownership skills most engineering students don't develop until much later.</p>
       </div>
-      <div class="detail-row">
-        <span class="detail-key">Program</span>
-        <span class="detail-val">B.Eng. Electrical (Co-op)</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-key">Institution</span>
-        <span class="detail-val">Memorial University of NL</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-key">GPA</span>
-        <span class="detail-val green">3.87 / 4.0 &nbsp;(85.5%)</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-key">Term</span>
-        <span class="detail-val">5 of 8</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-key">Graduation</span>
-        <span class="detail-val">May 2028</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-key">Location</span>
-        <span class="detail-val">St. John's, NL</span>
+      <div class="about-divider"></div>
+      <div class="reveal d1">
+        <div class="detail-table">
+          <div class="detail-row"><span class="detail-key">Status</span><span class="detail-val accent">Seeking Co-op 2026</span></div>
+          <div class="detail-row"><span class="detail-key">Program</span><span class="detail-val">B.Eng. Electrical (Co-op)</span></div>
+          <div class="detail-row"><span class="detail-key">Institution</span><span class="detail-val">Memorial University of NL</span></div>
+          <div class="detail-row"><span class="detail-key">GPA</span><span class="detail-val accent">3.87 / 4.0 &nbsp;(85.5%)</span></div>
+          <div class="detail-row"><span class="detail-key">Term</span><span class="detail-val">5 of 8</span></div>
+          <div class="detail-row"><span class="detail-key">Graduation</span><span class="detail-val">May 2028</span></div>
+          <div class="detail-row"><span class="detail-key">Location</span><span class="detail-val">St. John's, NL</span></div>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- PROJECTS -->
-<section id="projects">
-  <div class="section-label reveal">Projects</div>
+<div id="projects">
+  <div class="section-wrap">
+    <div class="section-label reveal">Projects</div>
+    <div class="projects-list">
 
-  <div class="projects-grid">
-
-    <!-- Featured: PCB -->
-    <div class="project-card featured reveal">
-      <div>
-        <div class="project-num">01 — Featured</div>
-        <h3 class="project-title">Analog Voltage Reference PCB Design</h3>
-        <div class="project-date">Jan. – Feb. 2026 &nbsp;·&nbsp; KiCad</div>
-        <p class="project-desc">
-          Designed a two-layer PCB delivering a stable 5 V analog reference from a 3-cell LiPo battery. Implemented reverse polarity protection, NCP1117 linear regulation, a zener reference network, and an MCP6001 rail-to-rail op-amp voltage follower for low-impedance, low-noise output.
-          Performed full ERC/DRC verification, generated Gerber files, drill files, detailed BOM, and 3D visualization for manufacturing readiness.
-        </p>
-        <div class="project-tags">
-          <span class="tag">KiCad</span>
-          <span class="tag">PCB Layout</span>
-          <span class="tag">Schematic Design</span>
-          <span class="tag">Analog Circuits</span>
-          <span class="tag">Linear Regulation</span>
-          <span class="tag">Op-Amp</span>
-          <span class="tag">Gerber / DRC</span>
+      <!-- PCB — Featured -->
+      <div class="project-item featured reveal">
+        <div class="project-num-col"><span>01</span></div>
+        <div class="project-body">
+          <div class="project-flag">Featured Project</div>
+          <h3 class="project-title">Analog Voltage Reference PCB Design</h3>
+          <div class="project-date">January – February 2026 &nbsp;·&nbsp; KiCad &nbsp;·&nbsp; Personal</div>
+          <p class="project-desc">Designed a two-layer PCB delivering a stable 5 V analog reference from a 3-cell LiPo battery. Implemented reverse polarity protection, NCP1117 linear regulation, a zener reference network, and an MCP6001 rail-to-rail op-amp voltage follower for low-impedance, low-noise output. Completed full ERC/DRC verification with Gerber files, drill files, BOM, and 3D visualisation for manufacturing readiness.</p>
+          <div class="project-tags">
+            <span class="tag">KiCad</span><span class="tag">PCB Layout</span><span class="tag">Schematic Design</span>
+            <span class="tag">Analog Circuits</span><span class="tag">Linear Regulation</span><span class="tag">Op-Amp</span><span class="tag">Gerber / DRC</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link">GitHub ↗</a>
+            <a href="#" class="proj-link">View Details ↗</a>
+          </div>
         </div>
-        <div class="project-links">
-          <a href="#" class="project-link">
-            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            GitHub
-          </a>
-          <a href="#" class="project-link">Details ↗</a>
+        <div class="project-visual">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="2" y="2" width="20" height="20" rx="1"/>
+            <path d="M2 8h20M8 2v6M16 2v6"/>
+            <circle cx="6" cy="14" r="1.5"/><circle cx="12" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/>
+            <path d="M6 18h12"/>
+          </svg>
+          Add KiCad 3D render
         </div>
       </div>
-      <div class="project-img-placeholder">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="2" y="2" width="20" height="20" rx="1"/>
-          <path d="M2 8h20M8 2v6M16 2v6"/>
-          <circle cx="6" cy="14" r="1.5"/>
-          <circle cx="12" cy="14" r="1.5"/>
-          <circle cx="18" cy="14" r="1.5"/>
-          <path d="M6 18h12"/>
-        </svg>
-        Add your KiCad 3D render here
-      </div>
-    </div>
 
-    <!-- Usage Tracking -->
-    <div class="project-card reveal reveal-d1">
-      <div class="project-num">02</div>
-      <h3 class="project-title">Laptop Station Usage Tracking System</h3>
-      <div class="project-date">Oct. – Dec. 2025 &nbsp;·&nbsp; Work Term</div>
-      <p class="project-desc">
-        Designed an automated sensing system to classify active vs. inactive shared workstations at MUN's QEII Library. Prototyped PIR motion-detection and AC current-sensing circuits; developed noise-reduction classification logic. Delivered formal technical report covering privacy, scalability, and maintenance.
-      </p>
-      <div class="project-tags">
-        <span class="tag">PIR Sensing</span>
-        <span class="tag">AC Current</span>
-        <span class="tag">Prototyping</span>
-        <span class="tag">Classification Logic</span>
-        <span class="tag">Technical Writing</span>
+      <!-- Usage Tracking -->
+      <div class="project-item reveal d1">
+        <div class="project-num-col"><span>02</span></div>
+        <div class="project-body">
+          <div class="project-flag">Work Term Project</div>
+          <h3 class="project-title">Laptop Station Usage Tracking System</h3>
+          <div class="project-date">October – December 2025 &nbsp;·&nbsp; MUN QEII Library</div>
+          <p class="project-desc">Designed an automated sensing system classifying active vs. inactive shared workstations. Prototyped PIR motion-detection and AC current-sensing circuits; developed noise-reduction classification logic. Delivered formal technical report covering data privacy, scalability, and maintenance recommendations.</p>
+          <div class="project-tags">
+            <span class="tag">PIR Sensing</span><span class="tag">AC Current</span><span class="tag">Circuit Prototyping</span>
+            <span class="tag">Classification Logic</span><span class="tag">Technical Writing</span>
+          </div>
+          <div class="project-links"><a href="#" class="proj-link">View Details ↗</a></div>
+        </div>
       </div>
-      <div class="project-links">
-        <a href="#" class="project-link">Details ↗</a>
-      </div>
-    </div>
 
-    <!-- Irrigation -->
-    <div class="project-card reveal reveal-d2">
-      <div class="project-num">03</div>
-      <h3 class="project-title">Automatic Irrigation System</h3>
-      <div class="project-date">Feb. – Apr. 2024 &nbsp;·&nbsp; Personal</div>
-      <p class="project-desc">
-        Built a closed-loop microcontroller-based irrigation system integrating capacitive soil moisture sensors, a relay-driven pump, and LCD status display. Programmed threshold-based control logic in C and calibrated sensors for consistent field performance.
-      </p>
-      <div class="project-tags">
-        <span class="tag">C</span>
-        <span class="tag">Microcontroller</span>
-        <span class="tag">Sensors</span>
-        <span class="tag">Relay Control</span>
-        <span class="tag">Closed-Loop</span>
+      <!-- Irrigation -->
+      <div class="project-item reveal d2">
+        <div class="project-num-col"><span>03</span></div>
+        <div class="project-body">
+          <div class="project-flag">Personal Project</div>
+          <h3 class="project-title">Automatic Irrigation System</h3>
+          <div class="project-date">February – April 2024 &nbsp;·&nbsp; St. John's, NL</div>
+          <p class="project-desc">Built a closed-loop microcontroller-based irrigation system integrating capacitive soil moisture sensors, relay-driven pump, and LCD status display. Programmed threshold-based control logic in C; calibrated sensors for consistent and reliable autonomous operation.</p>
+          <div class="project-tags">
+            <span class="tag">C</span><span class="tag">Microcontroller</span><span class="tag">Sensors</span>
+            <span class="tag">Relay Control</span><span class="tag">Closed-Loop</span>
+          </div>
+          <div class="project-links"><a href="#" class="proj-link">GitHub ↗</a></div>
+        </div>
       </div>
-      <div class="project-links">
-        <a href="#" class="project-link">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
 
-    <!-- Password Gen -->
-    <div class="project-card reveal reveal-d3">
-      <div class="project-num">04</div>
-      <h3 class="project-title">Password Generation Program</h3>
-      <div class="project-date">Sep. – Dec. 2023 &nbsp;·&nbsp; Academic</div>
-      <p class="project-desc">
-        Python CLI application generating policy-compliant passwords using user-defined character class constraints and cryptographic randomization via the <code style="font-family:var(--mono);font-size:12px;color:var(--green-dim)">secrets</code> module. Validated through systematic test cases; presented to a class audience.
-      </p>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">CLI</span>
-        <span class="tag">Cryptography</span>
-        <span class="tag">Testing</span>
+      <!-- Snow-Clearing -->
+      <div class="project-item reveal d3">
+        <div class="project-num-col"><span>04</span></div>
+        <div class="project-body">
+          <div class="project-flag">Academic — Graphics &amp; Design</div>
+          <h3 class="project-title">Snow-Clearing Device for Elderly Users</h3>
+          <div class="project-date">2023 &nbsp;·&nbsp; Memorial University</div>
+          <p class="project-desc">Collaborated with a partner to design an accessibility-focused snow-clearing device tailored to assist elderly individuals with winter maintenance tasks. Developed a detailed 3D model in Onshape emphasising mechanical design principles, usability, and durability. Documented with a comprehensive design report covering design decisions and final specifications.</p>
+          <div class="project-tags">
+            <span class="tag">Onshape</span><span class="tag">3D Modelling</span><span class="tag">Mechanical Design</span>
+            <span class="tag">Design for Accessibility</span><span class="tag">Technical Report</span>
+          </div>
+          <div class="project-links"><a href="#" class="proj-link">View Details ↗</a></div>
+        </div>
       </div>
-      <div class="project-links">
-        <a href="#" class="project-link">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
 
+      <!-- Password Gen -->
+      <div class="project-item reveal d4">
+        <div class="project-num-col"><span>05</span></div>
+        <div class="project-body">
+          <div class="project-flag">Academic — Introduction to Programming</div>
+          <h3 class="project-title">Password Generation Program</h3>
+          <div class="project-date">September – December 2023 &nbsp;·&nbsp; Memorial University</div>
+          <p class="project-desc">Python CLI application generating policy-compliant passwords using user-defined character class constraints and cryptographic randomisation via the <code style="font-family:monospace;font-size:12px;color:var(--green-accent)">secrets</code> module. Validated through systematic test cases; presented to a class audience.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span><span class="tag">CLI</span><span class="tag">Cryptography</span><span class="tag">Testing</span>
+          </div>
+          <div class="project-links"><a href="#" class="proj-link">GitHub ↗</a></div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</section>
+</div>
 
 <!-- SKILLS -->
-<section id="skills">
-  <div class="section-label reveal">Skills</div>
-
-  <div class="skills-grid">
-    <div class="skill-group reveal reveal-d1">
-      <div class="skill-group-label">Programming</div>
-      <ul class="skill-list">
-        <li>Python</li>
-        <li>C</li>
-        <li>C++</li>
-      </ul>
+<div id="skills">
+  <div class="section-wrap">
+    <div class="section-label reveal">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group reveal d1">
+        <div class="sg-label">Programming</div>
+        <ul class="sg-items">
+          <li>Python</li><li>C</li><li>C++</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal d2">
+        <div class="sg-label">Engineering Software</div>
+        <ul class="sg-items">
+          <li>KiCad</li><li>MATLAB</li><li>SolidWorks</li><li>Onshape</li><li>PSpice</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal d3">
+        <div class="sg-label">Core Competencies</div>
+        <ul class="sg-items">
+          <li>PCB Design &amp; Layout</li><li>Embedded Systems</li>
+          <li>Sensor Integration</li><li>Technical Documentation</li><li>Engineering Analysis</li>
+        </ul>
+      </div>
     </div>
-    <div class="skill-group reveal reveal-d2">
-      <div class="skill-group-label">Engineering Software</div>
-      <ul class="skill-list">
-        <li>KiCad</li>
-        <li>MATLAB</li>
-        <li>SolidWorks</li>
-        <li>Onshape</li>
-        <li>PSpice</li>
-      </ul>
-    </div>
-    <div class="skill-group reveal reveal-d3">
-      <div class="skill-group-label">Core Competencies</div>
-      <ul class="skill-list">
-        <li>PCB Design &amp; Layout</li>
-        <li>Embedded Systems</li>
-        <li>Sensor Integration</li>
-        <li>Technical Documentation</li>
-        <li>Engineering Analysis</li>
-      </ul>
+    <div class="certs-row reveal d1">
+      <span class="cert-label">Certifications</span>
+      <span class="cert">WHMIS</span>
+      <span class="cert">Tech Stewardship Micro-Credential</span>
+      <span class="cert">Excel Essential Training</span>
+      <span class="cert">Full Class 5 Driver's Licence</span>
     </div>
   </div>
-
-  <div class="certs-strip reveal">
-    <span class="detail-key" style="margin-right:6px;">Certifications</span>
-    <span class="cert-badge">WHMIS</span>
-    <span class="cert-badge">Tech Stewardship Micro-Credential</span>
-    <span class="cert-badge">Excel Essential Training</span>
-    <span class="cert-badge">Full Class 5 Driver's Licence</span>
-  </div>
-</section>
+</div>
 
 <!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-label reveal">Experience</div>
+<div id="experience">
+  <div class="section-wrap">
+    <div class="section-label reveal">Experience</div>
+    <div class="exp-list">
 
-  <div class="timeline">
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-date">Aug. – Dec. 2025</div>
+          <div class="exp-type">Co-op · Engineering</div>
+        </div>
+        <div class="exp-rule"></div>
+        <div class="exp-content">
+          <div class="exp-role">Co-op Engineering Student</div>
+          <div class="exp-org">The Commons, QEII Library — Memorial University, St. John's NL</div>
+          <ul class="exp-bullets">
+            <li>Independently owned a full-cycle workstation usage-tracking project: prototyped PIR and AC current-sensing circuits, developed noise-reduction classification logic, and delivered formal findings.</li>
+            <li>Produced a comprehensive technical report and presentation addressing scalability, data privacy, and operational constraints.</li>
+            <li>Coordinated cross-functional workflows via Slack and Trello across a four-month work term.</li>
+          </ul>
+        </div>
+      </div>
 
-    <div class="timeline-item reveal">
-      <div class="timeline-meta">
-        <div class="timeline-date">Aug. – Dec. 2025</div>
-        <div class="timeline-type">Co-op · Engineering</div>
+      <div class="exp-item reveal d1">
+        <div class="exp-meta">
+          <div class="exp-date">Jul. 2022 – Aug. 2023</div>
+          <div class="exp-type">Service · Leadership</div>
+        </div>
+        <div class="exp-rule"></div>
+        <div class="exp-content">
+          <div class="exp-role">Head Server</div>
+          <div class="exp-org">WOWOs Asian Homestyle Cooking — Corner Brook, NL</div>
+          <ul class="exp-bullets">
+            <li>Managed high-volume dining floor operations across a 13-month tenure; trained and onboarded service staff.</li>
+            <li>Configured POS payment systems and digital menus, applying technical skills in a live environment.</li>
+          </ul>
+        </div>
       </div>
-      <div class="timeline-content">
-        <div class="timeline-role">Co-op Engineering Student</div>
-        <div class="timeline-org">The Commons, QEII Library — Memorial University, St. John's NL</div>
-        <ul class="timeline-bullets">
-          <li>Independently owned a full-cycle workstation usage-tracking project: prototyped PIR and AC current-sensing circuits, developed noise-reduction classification logic, and delivered formal findings to supervisors.</li>
-          <li>Produced a comprehensive technical report and presentation addressing scalability, data privacy, and operational constraints.</li>
-          <li>Coordinated cross-functional workflows via Slack and Trello across a 4-month work term.</li>
-        </ul>
+
+      <div class="exp-item reveal d2">
+        <div class="exp-meta">
+          <div class="exp-date">Jun. – Sep. 2021</div>
+          <div class="exp-type">Operations · Office</div>
+        </div>
+        <div class="exp-rule"></div>
+        <div class="exp-content">
+          <div class="exp-role">Equipment Operator &amp; Office Assistant</div>
+          <div class="exp-org">Trademark Lumber Company — Deer Lake, NL</div>
+          <ul class="exp-bullets">
+            <li>Operated industrial lumber machinery under strict safety protocols — zero-incident season.</li>
+            <li>Processed weekly payroll with 100% accuracy; supported yard logistics and inventory tracking.</li>
+          </ul>
+        </div>
       </div>
+
     </div>
-
-    <div class="timeline-item reveal reveal-d1">
-      <div class="timeline-meta">
-        <div class="timeline-date">Jul. 2022 – Aug. 2023</div>
-        <div class="timeline-type">Service · Leadership</div>
-      </div>
-      <div class="timeline-content">
-        <div class="timeline-role">Head Server</div>
-        <div class="timeline-org">WOWOs Asian Homestyle Cooking — Corner Brook, NL</div>
-        <ul class="timeline-bullets">
-          <li>Managed high-volume dining floor operations across a 13-month tenure; trained and onboarded service staff.</li>
-          <li>Configured POS payment systems and digital menus, applying technical skills in a live environment.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal reveal-d2">
-      <div class="timeline-meta">
-        <div class="timeline-date">Jun. – Sep. 2021</div>
-        <div class="timeline-type">Operations · Office</div>
-      </div>
-      <div class="timeline-content">
-        <div class="timeline-role">Equipment Operator &amp; Office Assistant</div>
-        <div class="timeline-org">Trademark Lumber Company — Deer Lake, NL</div>
-        <ul class="timeline-bullets">
-          <li>Operated industrial lumber machinery under strict safety protocols — zero-incident season.</li>
-          <li>Processed weekly payroll with 100% accuracy; supported yard logistics and inventory tracking.</li>
-        </ul>
-      </div>
-    </div>
-
   </div>
-</section>
+</div>
 
 <!-- CONTACT -->
-<section id="contact">
-  <div class="section-label reveal">Contact</div>
-
-  <div class="contact-inner">
-    <div>
-      <h2 class="contact-heading reveal">Let's work<br><em>together.</em></h2>
-      <p class="contact-sub reveal reveal-d1">
-        I'm actively seeking my next co-op placement in electrical engineering. If you're looking for a detail-oriented, motivated engineering student — reach out.
-      </p>
-      <div class="contact-links reveal reveal-d2">
-        <div class="contact-link-row">
-          <span class="contact-link-label">Email</span>
-          <a href="mailto:maxwellb@mun.ca" class="contact-link-value">maxwellb@mun.ca</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">LinkedIn</span>
-          <a href="https://linkedin.com/in/maxwellbursey" class="contact-link-value" target="_blank">linkedin.com/in/maxwellbursey</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">Phone</span>
-          <a href="tel:7096368902" class="contact-link-value">(709) 636-8902</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">Resume</span>
-          <a href="Maxwell_Bursey_Resume_1Page.pdf" class="contact-link-value" target="_blank">Download PDF →</a>
+<div id="contact">
+  <div class="section-wrap">
+    <div class="section-label reveal">Contact</div>
+    <div class="contact-grid">
+      <div>
+        <h2 class="contact-heading reveal">Let's build<br><em>something.</em></h2>
+        <p class="contact-sub reveal d1">I'm actively seeking my next co-op placement in electrical engineering. If you're looking for a detail-oriented, motivated engineering student — I'd be glad to hear from you.</p>
+        <div class="contact-rows reveal d2">
+          <a href="mailto:maxwellb@mun.ca" class="contact-row">
+            <span class="cr-key">Email</span>
+            <span class="cr-val">maxwellb@mun.ca</span>
+          </a>
+          <a href="https://linkedin.com/in/maxwellbursey" target="_blank" class="contact-row">
+            <span class="cr-key">LinkedIn</span>
+            <span class="cr-val">linkedin.com/in/maxwellbursey</span>
+          </a>
+          <a href="tel:7096368902" class="contact-row">
+            <span class="cr-key">Phone</span>
+            <span class="cr-val">(709) 636-8902</span>
+          </a>
+          <a href="Maxwell_Bursey_Resume_1Page.pdf" target="_blank" class="contact-row">
+            <span class="cr-key">Resume</span>
+            <span class="cr-val">Download PDF →</span>
+          </a>
         </div>
       </div>
-    </div>
-    <div class="contact-right reveal reveal-d1">
-      <div class="availability-badge">
-        <div class="availability-dot"></div>
-        Available for Co-op — 2026
+      <div class="contact-right reveal d1">
+        <div class="avail-card">
+          <div class="avail-dot-row">
+            <div class="avail-dot"></div>
+            <span class="avail-label">Available for Co-op — 2026</span>
+          </div>
+          <div class="avail-text">Based in St. John's, NL.<br>Open to remote &amp; in-person roles across Canada.</div>
+        </div>
+        <p class="contact-note">Response time typically within 24 hours. Preference for roles in embedded systems, PCB design, or hardware engineering.</p>
       </div>
-      <p class="contact-note">
-        Based in St. John's, NL. Open to remote and in-person roles across Canada. Response time typically within 24 hours.
-      </p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2026 <span>Maxwell Bursey</span>. All rights reserved.</div>
-  <div class="footer-built">Built with HTML/CSS · Hosted on GitHub Pages</div>
+  <div class="foot-copy">© 2026 <strong>Maxwell Bursey</strong>. All rights reserved.</div>
+  <div class="foot-copy">Built with HTML/CSS · Hosted on GitHub Pages</div>
 </footer>
 
 <script>
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// Trigger hero reveals immediately
+// Immediate hero reveals
 document.querySelectorAll('#hero .reveal').forEach((el, i) => {
-  setTimeout(() => el.classList.add('visible'), i * 80);
+  setTimeout(() => el.classList.add('visible'), 100 + i * 90);
 });
 </script>
 </body>

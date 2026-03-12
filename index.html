@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxwell Bursey — Electrical Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --bg:           #0c0e0d;
+  --bg-2:         #111412;
+  --bg-3:         #171b18;
+  --border:       #222825;
+  --border-hi:    #2e3830;
+  --text:         #d4d8d5;
+  --text-2:       #8a9490;
+  --text-3:       #556059;
+  --green:        #6db380;
+  --green-dim:    #4a7c59;
+  --green-muted:  #2a4033;
+  --green-glow:   rgba(109,179,128,0.07);
+
+  --mono: 'DM Mono', monospace;
+  --display: 'DM Serif Display', serif;
+  --sans: 'DM Sans', sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+/* ═══════════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 300;
+  overflow-x: hidden;
+  /* PCB-style dot grid */
+  background-image: radial-gradient(circle, #1c221e 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+a { color: var(--green); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   LOAD ANIMATIONS
+═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-d1 { transition-delay: 0.05s; }
+.reveal-d2 { transition-delay: 0.12s; }
+.reveal-d3 { transition-delay: 0.19s; }
+.reveal-d4 { transition-delay: 0.26s; }
+.reveal-d5 { transition-delay: 0.33s; }
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 48px;
+  height: 60px;
+  background: rgba(12,14,13,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+.nav-logo span { color: var(--green); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+
+/* ═══════════════════════════════════════════
+   SECTION SHELL
+═══════════════════════════════════════════ */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 48px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green-dim);
+  margin-bottom: 40px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  max-width: 200px;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.hero-eyebrow::before {
+  content: '> ';
+  opacity: 0.5;
+}
+
+.hero-name {
+  font-family: var(--display);
+  font-size: clamp(52px, 8vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+.hero-name em {
+  font-style: italic;
+  color: var(--text-2);
+}
+
+.hero-desc {
+  max-width: 520px;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 44px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 26px;
+  background: var(--green);
+  color: #0c0e0d;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--green);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--green);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 26px;
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-hi);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover {
+  border-color: var(--green-dim);
+  color: var(--green);
+  transform: translateY(-1px);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 72px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.stat-value {
+  font-family: var(--display);
+  font-size: 36px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-value span {
+  color: var(--green);
+}
+.stat-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ═══════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════ */
+#about {
+  border-top: 1px solid var(--border);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text p {
+  color: var(--text-2);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+.about-text p:last-child { margin-bottom: 0; }
+
+.about-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+.detail-row:first-child { border-top: 1px solid var(--border); }
+
+.detail-key {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.detail-val {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--text);
+  text-align: right;
+}
+.detail-val.green { color: var(--green); }
+
+/* ═══════════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════════ */
+#projects {
+  border-top: 1px solid var(--border);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.project-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, background 0.25s;
+  cursor: default;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--green-dim);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+.project-card:hover {
+  border-color: var(--border-hi);
+  background: var(--bg-3);
+}
+.project-card:hover::before {
+  transform: scaleX(1);
+}
+
+.project-card.featured {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.project-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-bottom: 16px;
+}
+
+.project-title {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.project-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green-dim);
+  margin-bottom: 14px;
+}
+
+.project-desc {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.tag {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border: 1px solid var(--green-muted);
+  color: var(--green-dim);
+  background: rgba(42,64,51,0.3);
+}
+
+.project-links {
+  display: flex;
+  gap: 16px;
+}
+.project-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.project-link:hover { color: var(--green); }
+.project-link svg { width: 12px; height: 12px; }
+
+/* image placeholder */
+.project-img-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg);
+  border: 1px dashed var(--border-hi);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-3);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+.project-img-placeholder svg {
+  width: 28px;
+  height: 28px;
+  opacity: 0.3;
+}
+
+/* ═══════════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════════ */
+#skills {
+  border-top: 1px solid var(--border);
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.skill-group {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 28px;
+}
+
+.skill-group-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-dim);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.skill-list li {
+  font-size: 13.5px;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 300;
+}
+.skill-list li::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: var(--green-dim);
+  flex-shrink: 0;
+}
+
+/* certifications strip */
+.certs-strip {
+  margin-top: 2px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 24px 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.cert-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 5px 12px;
+  border: 1px solid var(--border-hi);
+  color: var(--text-2);
+  background: var(--bg);
+}
+
+/* ═══════════════════════════════════════════
+   EXPERIENCE
+═══════════════════════════════════════════ */
+#experience {
+  border-top: 1px solid var(--border);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid var(--border);
+  margin-left: 8px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  padding: 0 0 44px 40px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  background: var(--bg);
+  border: 1px solid var(--green-dim);
+}
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-meta {
+  padding-top: 4px;
+}
+.timeline-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--green-dim);
+  margin-bottom: 6px;
+}
+.timeline-type {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.timeline-content {}
+.timeline-role {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.timeline-org {
+  font-size: 13px;
+  color: var(--text-3);
+  font-style: italic;
+  margin-bottom: 12px;
+  font-family: var(--sans);
+  font-weight: 300;
+}
+.timeline-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.timeline-bullets li {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+  padding-left: 14px;
+  position: relative;
+  font-weight: 300;
+}
+.timeline-bullets li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--text-3);
+}
+
+/* ═══════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════ */
+#contact {
+  border-top: 1px solid var(--border);
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-heading {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+.contact-heading em { color: var(--green); font-style: italic; }
+
+.contact-sub {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.contact-link-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.2s;
+}
+.contact-link-row:first-child { border-top: 1px solid var(--border); }
+.contact-link-row:hover { padding-left: 6px; }
+
+.contact-link-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.contact-link-value {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 400;
+}
+.contact-link-value:hover { color: var(--green); }
+
+.contact-right {
+  padding-top: 8px;
+}
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--green-muted);
+  background: rgba(42,64,51,0.2);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--green);
+  margin-bottom: 32px;
+}
+.availability-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.contact-note {
+  font-size: 13px;
+  color: var(--text-3);
+  line-height: 1.7;
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+}
+.footer-copy span { color: var(--green-dim); }
+
+.footer-built {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  section { padding: 80px 24px; }
+  nav { padding: 0 24px; }
+  footer { padding: 24px; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  .timeline-item { grid-template-columns: 1fr; gap: 8px; }
+  .hero-stats { gap: 28px; flex-wrap: wrap; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 600px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-name { font-size: 44px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>mb</span> / portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow reveal">Electrical Engineering Co-op Student</div>
+  <h1 class="hero-name reveal reveal-d1">Maxwell<br><em>Bursey</em></h1>
+  <p class="hero-desc reveal reveal-d2">
+    Term 5 EE student at Memorial University of Newfoundland, focused on embedded systems, PCB design, and sensor integration. Currently seeking my next co-op placement.
+  </p>
+  <div class="hero-ctas reveal reveal-d3">
+    <a href="#projects" class="btn-primary">View Projects ↓</a>
+    <a href="Maxwell_Bursey_Resume_1Page.pdf" class="btn-secondary" target="_blank">Download Resume →</a>
+  </div>
+  <div class="hero-stats reveal reveal-d4">
+    <div>
+      <div class="stat-value">3.87<span>/4.0</span></div>
+      <div class="stat-label">Cumulative GPA</div>
+    </div>
+    <div>
+      <div class="stat-value">5<span>/8</span></div>
+      <div class="stat-label">Terms Complete</div>
+    </div>
+    <div>
+      <div class="stat-value">4<span>+</span></div>
+      <div class="stat-label">Engineering Projects</div>
+    </div>
+    <div>
+      <div class="stat-value">1</div>
+      <div class="stat-label">Co-op Completed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">About</div>
+  <div class="about-grid">
+    <div class="about-text reveal reveal-d1">
+      <p>
+        I'm a fifth-term Electrical Engineering student at Memorial University of Newfoundland, currently in the co-op stream. My work spans embedded systems, PCB design, and practical sensor integration — I'm drawn to projects that bridge the gap between hardware and real-world application.
+      </p>
+      <p>
+        My most recent co-op at MUN's QEII Library gave me end-to-end project ownership: scoping a usage-tracking system, prototyping circuits, reducing noise in classification logic, and delivering formal technical findings — all independently.
+      </p>
+      <p>
+        Outside of engineering, I've developed a strong foundation in high-stakes operations management and team leadership, skills I carry directly into technical roles.
+      </p>
+    </div>
+    <div class="about-details reveal reveal-d2">
+      <div class="detail-row">
+        <span class="detail-key">Status</span>
+        <span class="detail-val green">Seeking Co-op — 2026</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Program</span>
+        <span class="detail-val">B.Eng. Electrical (Co-op)</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Institution</span>
+        <span class="detail-val">Memorial University of NL</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">GPA</span>
+        <span class="detail-val green">3.87 / 4.0 &nbsp;(85.5%)</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Term</span>
+        <span class="detail-val">5 of 8</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Graduation</span>
+        <span class="detail-val">May 2028</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Location</span>
+        <span class="detail-val">St. John's, NL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">Projects</div>
+
+  <div class="projects-grid">
+
+    <!-- Featured: PCB -->
+    <div class="project-card featured reveal">
+      <div>
+        <div class="project-num">01 — Featured</div>
+        <h3 class="project-title">Analog Voltage Reference PCB Design</h3>
+        <div class="project-date">Jan. – Feb. 2026 &nbsp;·&nbsp; KiCad</div>
+        <p class="project-desc">
+          Designed a two-layer PCB delivering a stable 5 V analog reference from a 3-cell LiPo battery. Implemented reverse polarity protection, NCP1117 linear regulation, a zener reference network, and an MCP6001 rail-to-rail op-amp voltage follower for low-impedance, low-noise output.
+          Performed full ERC/DRC verification, generated Gerber files, drill files, detailed BOM, and 3D visualization for manufacturing readiness.
+        </p>
+        <div class="project-tags">
+          <span class="tag">KiCad</span>
+          <span class="tag">PCB Layout</span>
+          <span class="tag">Schematic Design</span>
+          <span class="tag">Analog Circuits</span>
+          <span class="tag">Linear Regulation</span>
+          <span class="tag">Op-Amp</span>
+          <span class="tag">Gerber / DRC</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+          <a href="#" class="project-link">Details ↗</a>
+        </div>
+      </div>
+      <div class="project-img-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="2" y="2" width="20" height="20" rx="1"/>
+          <path d="M2 8h20M8 2v6M16 2v6"/>
+          <circle cx="6" cy="14" r="1.5"/>
+          <circle cx="12" cy="14" r="1.5"/>
+          <circle cx="18" cy="14" r="1.5"/>
+          <path d="M6 18h12"/>
+        </svg>
+        Add your KiCad 3D render here
+      </div>
+    </div>
+
+    <!-- Usage Tracking -->
+    <div class="project-card reveal reveal-d1">
+      <div class="project-num">02</div>
+      <h3 class="project-title">Laptop Station Usage Tracking System</h3>
+      <div class="project-date">Oct. – Dec. 2025 &nbsp;·&nbsp; Work Term</div>
+      <p class="project-desc">
+        Designed an automated sensing system to classify active vs. inactive shared workstations at MUN's QEII Library. Prototyped PIR motion-detection and AC current-sensing circuits; developed noise-reduction classification logic. Delivered formal technical report covering privacy, scalability, and maintenance.
+      </p>
+      <div class="project-tags">
+        <span class="tag">PIR Sensing</span>
+        <span class="tag">AC Current</span>
+        <span class="tag">Prototyping</span>
+        <span class="tag">Classification Logic</span>
+        <span class="tag">Technical Writing</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="project-link">Details ↗</a>
+      </div>
+    </div>
+
+    <!-- Irrigation -->
+    <div class="project-card reveal reveal-d2">
+      <div class="project-num">03</div>
+      <h3 class="project-title">Automatic Irrigation System</h3>
+      <div class="project-date">Feb. – Apr. 2024 &nbsp;·&nbsp; Personal</div>
+      <p class="project-desc">
+        Built a closed-loop microcontroller-based irrigation system integrating capacitive soil moisture sensors, a relay-driven pump, and LCD status display. Programmed threshold-based control logic in C and calibrated sensors for consistent field performance.
+      </p>
+      <div class="project-tags">
+        <span class="tag">C</span>
+        <span class="tag">Microcontroller</span>
+        <span class="tag">Sensors</span>
+        <span class="tag">Relay Control</span>
+        <span class="tag">Closed-Loop</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Password Gen -->
+    <div class="project-card reveal reveal-d3">
+      <div class="project-num">04</div>
+      <h3 class="project-title">Password Generation Program</h3>
+      <div class="project-date">Sep. – Dec. 2023 &nbsp;·&nbsp; Academic</div>
+      <p class="project-desc">
+        Python CLI application generating policy-compliant passwords using user-defined character class constraints and cryptographic randomization via the <code style="font-family:var(--mono);font-size:12px;color:var(--green-dim)">secrets</code> module. Validated through systematic test cases; presented to a class audience.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">CLI</span>
+        <span class="tag">Cryptography</span>
+        <span class="tag">Testing</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">Skills</div>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal reveal-d1">
+      <div class="skill-group-label">Programming</div>
+      <ul class="skill-list">
+        <li>Python</li>
+        <li>C</li>
+        <li>C++</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal reveal-d2">
+      <div class="skill-group-label">Engineering Software</div>
+      <ul class="skill-list">
+        <li>KiCad</li>
+        <li>MATLAB</li>
+        <li>SolidWorks</li>
+        <li>Onshape</li>
+        <li>PSpice</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal reveal-d3">
+      <div class="skill-group-label">Core Competencies</div>
+      <ul class="skill-list">
+        <li>PCB Design &amp; Layout</li>
+        <li>Embedded Systems</li>
+        <li>Sensor Integration</li>
+        <li>Technical Documentation</li>
+        <li>Engineering Analysis</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="certs-strip reveal">
+    <span class="detail-key" style="margin-right:6px;">Certifications</span>
+    <span class="cert-badge">WHMIS</span>
+    <span class="cert-badge">Tech Stewardship Micro-Credential</span>
+    <span class="cert-badge">Excel Essential Training</span>
+    <span class="cert-badge">Full Class 5 Driver's Licence</span>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal">Experience</div>
+
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-date">Aug. – Dec. 2025</div>
+        <div class="timeline-type">Co-op · Engineering</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-role">Co-op Engineering Student</div>
+        <div class="timeline-org">The Commons, QEII Library — Memorial University, St. John's NL</div>
+        <ul class="timeline-bullets">
+          <li>Independently owned a full-cycle workstation usage-tracking project: prototyped PIR and AC current-sensing circuits, developed noise-reduction classification logic, and delivered formal findings to supervisors.</li>
+          <li>Produced a comprehensive technical report and presentation addressing scalability, data privacy, and operational constraints.</li>
+          <li>Coordinated cross-functional workflows via Slack and Trello across a 4-month work term.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal reveal-d1">
+      <div class="timeline-meta">
+        <div class="timeline-date">Jul. 2022 – Aug. 2023</div>
+        <div class="timeline-type">Service · Leadership</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-role">Head Server</div>
+        <div class="timeline-org">WOWOs Asian Homestyle Cooking — Corner Brook, NL</div>
+        <ul class="timeline-bullets">
+          <li>Managed high-volume dining floor operations across a 13-month tenure; trained and onboarded service staff.</li>
+          <li>Configured POS payment systems and digital menus, applying technical skills in a live environment.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal reveal-d2">
+      <div class="timeline-meta">
+        <div class="timeline-date">Jun. – Sep. 2021</div>
+        <div class="timeline-type">Operations · Office</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-role">Equipment Operator &amp; Office Assistant</div>
+        <div class="timeline-org">Trademark Lumber Company — Deer Lake, NL</div>
+        <ul class="timeline-bullets">
+          <li>Operated industrial lumber machinery under strict safety protocols — zero-incident season.</li>
+          <li>Processed weekly payroll with 100% accuracy; supported yard logistics and inventory tracking.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">Contact</div>
+
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-heading reveal">Let's work<br><em>together.</em></h2>
+      <p class="contact-sub reveal reveal-d1">
+        I'm actively seeking my next co-op placement in electrical engineering. If you're looking for a detail-oriented, motivated engineering student — reach out.
+      </p>
+      <div class="contact-links reveal reveal-d2">
+        <div class="contact-link-row">
+          <span class="contact-link-label">Email</span>
+          <a href="mailto:maxwellb@mun.ca" class="contact-link-value">maxwellb@mun.ca</a>
+        </div>
+        <div class="contact-link-row">
+          <span class="contact-link-label">LinkedIn</span>
+          <a href="https://linkedin.com/in/maxwellbursey" class="contact-link-value" target="_blank">linkedin.com/in/maxwellbursey</a>
+        </div>
+        <div class="contact-link-row">
+          <span class="contact-link-label">Phone</span>
+          <a href="tel:7096368902" class="contact-link-value">(709) 636-8902</a>
+        </div>
+        <div class="contact-link-row">
+          <span class="contact-link-label">Resume</span>
+          <a href="Maxwell_Bursey_Resume_1Page.pdf" class="contact-link-value" target="_blank">Download PDF →</a>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right reveal reveal-d1">
+      <div class="availability-badge">
+        <div class="availability-dot"></div>
+        Available for Co-op — 2026
+      </div>
+      <p class="contact-note">
+        Based in St. John's, NL. Open to remote and in-person roles across Canada. Response time typically within 24 hours.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 <span>Maxwell Bursey</span>. All rights reserved.</div>
+  <div class="footer-built">Built with HTML/CSS · Hosted on GitHub Pages</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Trigger hero reveals immediately
+document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+  setTimeout(() => el.classList.add('visible'), i * 80);
+});
+</script>
+</body>
+</html>

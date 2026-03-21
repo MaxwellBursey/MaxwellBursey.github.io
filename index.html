@@ -875,14 +875,8 @@ footer {
             <a href="#" class="p-link">Details</a>
           </div>
         </div>
-        <div class="p-visual">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <rect x="2" y="2" width="20" height="20" rx="1"/>
-            <path d="M2 8h20M8 2v6M16 2v6"/>
-            <circle cx="6" cy="14" r="1.5"/><circle cx="12" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/>
-            <path d="M6 18h12"/>
-          </svg>
-          Add KiCad 3D render here
+        <div class="p-visual" style="padding:0;overflow:hidden;">
+          <img src="pcb_render.png" alt="KiCad 3D render of the Analog Voltage Reference PCB" style="width:100%;height:100%;object-fit:cover;display:block;">
         </div>
       </div>
 
@@ -1042,9 +1036,9 @@ footer {
         <h2 class="contact-heading reveal">Let's build<br><em>something.</em></h2>
         <p class="contact-intro reveal d1">Actively seeking a co-op placement in electrical engineering for 2026. If you are looking for a detail-oriented, motivated engineering student, I would be glad to hear from you.</p>
         <div class="contact-list reveal d2">
-          <a href="mailto:maxwellb@mun.ca" class="contact-item">
+          <a href="/cdn-cgi/l/email-protection#3b565a434c5e5757597b564e5515585a" class="contact-item">
             <span class="ci-key">Email</span>
-            <span class="ci-val">maxwellb@mun.ca</span>
+            <span class="ci-val"><span class="__cf_email__" data-cfemail="0469657c73616868664469716a2a6765">[email&#160;protected]</span></span>
           </a>
           <a href="https://www.linkedin.com/in/maxwellwsbursey" target="_blank" class="contact-item">
             <span class="ci-key">LinkedIn</span>
@@ -1080,16 +1074,34 @@ footer {
   <div class="foot-text">Built with HTML/CSS · Hosted on GitHub Pages</div>
 </footer>
 
+
 <script>
+// Reveal on scroll — with immediate trigger for anything already in view
+function revealAll() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 40) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+// IntersectionObserver for scroll-triggered reveals
 const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-document.querySelectorAll('#hero .reveal').forEach((el, i) => {
-  setTimeout(() => el.classList.add('visible'), 100 + i * 90);
-});
+// Run immediately and after a short delay to catch hero elements
+revealAll();
+setTimeout(revealAll, 100);
+setTimeout(revealAll, 400);
+
+// Also run on scroll for any missed elements
+window.addEventListener('scroll', revealAll, { passive: true });
 </script>
 </body>
 </html>

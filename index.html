@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  PROJECT DETAIL PAGE - Workstation usage tracking system
+  MAXWELL BURSEY - PORTFOLIO (VERSION A: single scroll)
   TO ADD A NEW PROJECT:
-  1. Duplicate this file, rename it (e.g. projects/my-new-project.html)
-  2. Edit the title, category, date, facts, and section content below
-  3. Add a matching entry to the projects list in index.html
-     (there is a template comment there showing exactly what to copy)
+  1. Create its detail page: duplicate any file in /,
+     rename it, and edit the content (instructions inside).
+  2. Copy the ledger-row template below (search for
+     "NEW PROJECT TEMPLATE") and paste it at the TOP of the
+     ledger list so newest work appears first.
 ============================================================ -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workstation usage tracking system - Maxwell Bursey</title>
+<title>Maxwell Bursey - Electrical Engineering</title>
+<meta name="description" content="Electrical engineering co-op student at Memorial University. PCB design, embedded systems, sensor integration. Seeking co-op placement 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -33,58 +35,241 @@ img{max-width:100%;display:block}
 .fade{animation:fadeup .6s cubic-bezier(.22,1,.36,1) both}
 .fade-2{animation-delay:.08s}.fade-3{animation-delay:.16s}
 
-.dnav{border-bottom:1px solid #e4e2dd;padding:14px 0}
-.dnav-in{max-width:760px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
-.dnav a:hover{color:#13233c}
-.dwrap{max-width:760px;margin:0 auto;padding:56px 24px 72px}
-.dhead h1{font-family:'Source Serif 4',serif;font-size:clamp(30px,5vw,42px);font-weight:600;color:#13233c;line-height:1.12;margin:14px 0 12px}
-.dplain{font-size:18px;color:#4a4a52;line-height:1.6;max-width:620px}
-.dfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border:1px solid #d8d6d0;border-radius:2px;margin:36px 0}
-.dfact{padding:14px 18px;border-right:1px solid #e4e2dd}
-.dfact:last-child{border-right:none}
-.dfact .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:#8a8890;text-transform:uppercase;margin-bottom:4px}
-.dfact .v{font-size:13.5px;font-weight:500;color:#1c1c20;line-height:1.45}
-figure{margin:36px 0}
-figure .imgbox{background:#13233c;border-radius:2px;padding:20px}
-figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8890;margin-top:10px}
-.dsec{margin-top:40px}
-.dsec h2{font-family:'Source Serif 4',serif;font-size:23px;font-weight:600;color:#13233c;margin-bottom:12px}
-.dsec p{font-size:15.5px;color:#3c3c44;line-height:1.8;max-width:660px}
-.dtech{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5f6d84;line-height:1.8;border-left:2px solid #d8d6d0;padding-left:16px;margin-top:32px}
-.dpager{display:flex;justify-content:space-between;gap:16px;margin-top:64px;border-top:1px solid #e4e2dd;padding-top:24px}
-.dpager a{font-size:14px;font-weight:500;color:#13233c}
-.dpager a:hover{text-decoration:underline;text-underline-offset:3px}
-.dpager .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#8a8890;display:block;margin-bottom:3px;text-transform:uppercase}
-@media(max-width:640px){.dfact{border-right:none;border-bottom:1px solid #e4e2dd}.dfact:last-child{border-bottom:none}}
+nav{position:sticky;top:0;z-index:100;background:rgba(252,252,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e4e2dd}
+.nav-in{max-width:1040px;margin:0 auto;padding:13px 24px;display:flex;justify-content:space-between;align-items:center}
+.nav-name{font-family:'Source Serif 4',serif;font-size:16px;font-weight:600;color:#13233c}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:#8a8890;text-transform:uppercase}
+.nav-links a:hover{color:#13233c}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:center;padding:72px 0 64px}
+.hero h1{font-family:'Source Serif 4',serif;font-size:clamp(34px,4.6vw,50px);font-weight:600;line-height:1.12;color:#13233c;margin:16px 0 16px}
+.hero-sub{font-size:16px;color:#4a4a52;line-height:1.7;max-width:460px;margin-bottom:26px}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.hero-img{background:#13233c;border-radius:2px;padding:18px 18px 12px}
+.hero-img img{border-radius:2px}
+.hero-cap{display:flex;justify-content:space-between;margin-top:10px}
+.hero-cap span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em}
+/* sections */
+section{padding:56px 0;border-top:1px solid #e4e2dd}
+h2.sec{font-family:'Source Serif 4',serif;font-size:27px;font-weight:600;color:#13233c;margin-bottom:28px}
+/* featured project */
+.feat{border:1px solid #d8d6d0;border-radius:2px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transition:border-color .15s}
+.feat:hover{border-color:#13233c}
+.feat-img{background:#13233c;padding:18px;display:flex;align-items:center}
+.feat-body{padding:26px 30px}
+.feat-title{font-family:'Source Serif 4',serif;font-size:22px;font-weight:600;color:#13233c;margin:8px 0 8px}
+.feat-plain{font-size:14.5px;color:#3c3c44;line-height:1.65;margin-bottom:12px}
+.feat-tech{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5f6d84;line-height:1.7;border-left:2px solid #d8d6d0;padding-left:12px;margin-bottom:16px}
+.feat-link{font-size:14px;font-weight:500;color:#13233c;border-bottom:1px solid #13233c;padding-bottom:1px}
+/* ledger */
+.ledger{margin-top:12px;border-top:1px solid #e4e2dd}
+.lrow{display:grid;grid-template-columns:1fr auto;gap:24px;padding:20px 4px;border-bottom:1px solid #e4e2dd;align-items:baseline;transition:background .12s}
+.lrow:hover{background:#f5f4f0}
+.lrow:hover .ltitle{text-decoration:underline;text-underline-offset:3px}
+.ltitle{font-family:'Source Serif 4',serif;font-size:18px;font-weight:600;color:#13233c;margin-bottom:3px}
+.lplain{font-size:13.5px;color:#4a4a52;line-height:1.6;max-width:560px}
+.ltech{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8a8890;margin-top:5px}
+.lyear{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8a8890;white-space:nowrap}
+/* experience */
+.xrow{display:grid;grid-template-columns:190px 1fr;gap:32px;padding:24px 0;border-bottom:1px solid #e4e2dd}
+.xrow:last-child{border-bottom:none}
+.xdate{font-size:14px;font-style:italic;color:#5a5860;margin-bottom:4px}
+.xrole{font-size:18px;font-weight:600;color:#13233c}
+.xorg{font-size:13px;color:#8a8890;font-style:italic;margin:2px 0 10px}
+.xpts{list-style:none}
+.xpts li{font-size:14px;color:#3c3c44;line-height:1.7;padding-left:16px;position:relative;margin-bottom:6px}
+.xpts li::before{content:'\2013';position:absolute;left:0;color:#8a8890}
+/* skills */
+.skgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px}
+.sklist{list-style:none}
+.sklist li{font-size:14.5px;color:#3c3c44;line-height:1.9}
+.certs{margin-top:28px;padding-top:18px;border-top:1px solid #e4e2dd}
+/* contact */
+.cmail{font-family:'Source Serif 4',serif;font-size:clamp(24px,3.6vw,34px);font-weight:600;color:#13233c;border-bottom:2px solid #13233c;padding-bottom:2px}
+.cmail:hover{opacity:.75}
+.crow{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px}
+.crow a{font-size:14px;font-weight:500;color:#3c3c44;border-bottom:1px solid #c7c5bd;padding-bottom:1px}
+.crow a:hover{color:#13233c;border-color:#13233c}
+footer{border-top:1px solid #e4e2dd;padding:20px 0}
+.foot-in{max-width:1040px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:820px){
+  .hero{grid-template-columns:1fr;gap:32px;padding:48px 0 40px}
+  .feat{grid-template-columns:1fr}
+  .xrow{grid-template-columns:1fr;gap:8px}
+  .nav-links{display:none}
+}
 </style>
 </head>
 <body>
 
-<div class="dnav">
-  <div class="dnav-in">
-    <a href="../index.html" class="serif" style="font-size:15px;font-weight:600;color:#13233c">← Maxwell Bursey</a>
-    <span class="meta">PROJECTS / WORKSTATION USAGE TRACKING SYSTEM</span>
+<nav>
+  <div class="nav-in">
+    <span class="nav-name">Maxwell Bursey</span>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="fade">
+      <span class="label">Seeking co-op · 2026</span>
+      <h1>Electrical engineering student who designs and builds real hardware.</h1>
+      <p class="hero-sub">Term 5 co-op student at Memorial University of Newfoundland. I take projects from schematic capture through layout, verification, and manufacturing files - PCB design, embedded systems, sensor integration.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-solid" href="#projects">View projects</a>
+        <a class="btn btn-line" href="Maxwell_Bursey_Resume_1Page.pdf" target="_blank">Resume (PDF)</a>
+      </div>
+      <span class="meta">GPA 3.87/4.0 · MUN · ST. JOHN'S, NL</span>
+    </div>
+    <div class="fade fade-2">
+      <div class="hero-img">
+        <img src="pcb_render.png" alt="KiCad 3D render of the analog voltage reference PCB">
+        <div class="hero-cap">
+          <span style="color:rgba(252,252,250,.9)">ANALOG VOLTAGE REFERENCE</span>
+          <span style="color:rgba(252,252,250,.45)">KICAD · 2026</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="dwrap">
-  <div class="dhead fade">
-    <span class="label">Work term project · The Commons, QEII Library · Oct–Dec 2025</span>
-    <h1>Workstation usage tracking system</h1>
-    <p class="dplain">An automated sensing system that tells library staff which shared laptop stations are actually in use.</p>
+<section id="projects">
+  <div class="wrap">
+    <h2 class="sec">Projects</h2>
+
+    <a class="feat" href="analog-voltage-reference-pcb.html">
+      <div class="feat-img"><img src="pcb_render.png" alt="Analog voltage reference PCB render"></div>
+      <div class="feat-body">
+        <span class="label" style="font-size:10px">Featured · Jan–Feb 2026</span>
+        <div class="feat-title">Analog voltage reference PCB</div>
+        <div class="feat-plain">A two-layer board that turns a 3-cell drone battery into a clean, stable 5 V reference for analog measurement.</div>
+        <div class="feat-tech">NCP1117 linear regulation · zener reference network · MCP6001 rail-to-rail follower · reverse-polarity protection · full ERC/DRC pass</div>
+        <span class="feat-link">Case study →</span>
+      </div>
+    </a>
+
+    <div class="ledger">
+      <!-- ==================== NEW PROJECT TEMPLATE ====================
+      <a class="lrow" href="YOUR-NEW-PROJECT.html">
+        <div>
+          <div class="ltitle">Project title</div>
+          <div class="lplain">One plain-English sentence anyone can understand.</div>
+          <div class="ltech">tech · details · for · engineers</div>
+        </div>
+        <div class="lyear">2026</div>
+      </a>
+      =============================================================== -->
+      
+      <a class="lrow" href="usage-tracking-system.html">
+        <div>
+          <div class="ltitle">Workstation usage tracking system</div>
+          <div class="lplain">An automated sensing system that tells library staff which shared laptop stations are actually in use.</div>
+          <div class="ltech">PIR motion detection · AC current measurement · classification logic · formal technical report</div>
+        </div>
+        <div class="lyear">2025</div>
+      </a>
+      <a class="lrow" href="automatic-irrigation-system.html">
+        <div>
+          <div class="ltitle">Automatic irrigation system</div>
+          <div class="lplain">A closed-loop system that waters plants only when the soil actually needs it.</div>
+          <div class="ltech">Capacitive soil moisture sensing · relay-driven pump · LCD status display · C firmware</div>
+        </div>
+        <div class="lyear">2024</div>
+      </a>
+      <a class="lrow" href="snow-clearing-device.html">
+        <div>
+          <div class="ltitle">Snow-clearing device for elderly users</div>
+          <div class="lplain">An accessibility-focused snow-clearing device designed for elderly users, modelled in 3D.</div>
+          <div class="ltech">Onshape 3D modelling · mechanical design · design-for-accessibility · formal design report</div>
+        </div>
+        <div class="lyear">2023</div>
+      </a>
+      <a class="lrow" href="password-generator.html">
+        <div>
+          <div class="ltitle">Password generation program</div>
+          <div class="lplain">A Python command-line tool that generates policy-compliant passwords with cryptographic randomness.</div>
+          <div class="ltech">Python · secrets module · character-class constraints · systematic testing</div>
+        </div>
+        <div class="lyear">2023</div>
+      </a>
+    </div>
   </div>
+</section>
 
-  <div class="dfacts fade fade-2"><div class="dfact"><div class="k">Role</div><div class="v">Co-op engineering student - project owner</div></div><div class="dfact"><div class="k">Timeline</div><div class="v">October – December 2025</div></div><div class="dfact"><div class="k">Setting</div><div class="v">The Commons, QEII Library, Memorial University</div></div><div class="dfact"><div class="k">Deliverables</div><div class="v">Working prototypes · technical report · supervisor presentation</div></div></div>
-  
-  <div class="dsec"><h2>The problem</h2><p>The Commons operates shared laptop workstations in a high-traffic library environment, and staff had no reliable way to know how heavily they were used. Manual observation doesn't scale, and cameras were off the table for privacy reasons. The task: evaluate whether an automated system could classify each station as active or inactive, accurately and without watching anyone.</p></div><div class="dsec"><h2>Approach</h2><p>I owned the project end-to-end - scoping it, researching candidate sensing methods, and prototyping the two most promising: passive infrared (PIR) motion detection at the station, and AC current measurement on the station's power draw. Each prototype was assessed against the criteria that mattered operationally: accuracy, reliability, scalability across many stations, cost, and maintenance burden.</p></div><div class="dsec"><h2>Classification logic</h2><p>Raw sensor data is messy - a person walking past a station is not a user, and a laptop's power draw fluctuates even when idle. I developed classification logic to translate noisy real-world readings into a clean active/inactive state, specifically targeting false positives from transient motion and load fluctuation.</p></div><div class="dsec"><h2>Outcome</h2><p>The work concluded in a formal technical report documenting the research, test methods, and findings, with recommendations that weighed data privacy, scalability, and long-term maintenance. I presented the results to supervisors to support their decision on deployment. Throughout the term I ran weekly supervisor updates and coordinated day-to-day through Slack and Trello.</p></div>
-
-  <div class="dtech">PIR motion detection · AC current measurement · classification logic · formal technical report</div>
-
-  <div class="dpager">
-    <a href="analog-voltage-reference-pcb.html"><span class="sub">← Previous</span>Analog voltage reference PCB</a>
-    <a href="automatic-irrigation-system.html" style="text-align:right"><span class="sub">Next →</span>Automatic irrigation system</a>
+<section id="experience">
+  <div class="wrap">
+    <h2 class="sec">Experience</h2>
+    
+      <div class="xrow">
+        <div class="xleft">
+          <div class="xdate serif">Aug – Dec 2025</div>
+          <div class="label" style="font-size:10px">Co-op</div>
+        </div>
+        <div class="xright">
+          <div class="xrole serif">Co-op Engineering Student</div>
+          <div class="xorg">The Commons, QEII Library - Memorial University, St. John's NL</div>
+          <ul class="xpts"><li>Independently designed and evaluated an automated workstation usage-tracking system, prototyping motion detection and AC current measurement circuits.</li><li>Developed sensor classification logic to reduce false positives; documented findings in a formal technical report and presented to supervisors.</li><li>Delivered weekly project updates; coordinated workflows via Slack and Trello.</li></ul>
+        </div>
+      </div>
+      <div class="xrow">
+        <div class="xleft">
+          <div class="xdate serif">Jul 2022 – Aug 2023</div>
+          <div class="label" style="font-size:10px">Service</div>
+        </div>
+        <div class="xright">
+          <div class="xrole serif">Head Server</div>
+          <div class="xorg">WOWOs Asian Homestyle Cooking - Corner Brook, NL</div>
+          <ul class="xpts"><li>Managed high-volume dining floor operations; trained and onboarded service staff.</li><li>Configured POS payment systems and digital menus.</li></ul>
+        </div>
+      </div>
+      <div class="xrow">
+        <div class="xleft">
+          <div class="xdate serif">Jun – Sep 2021</div>
+          <div class="label" style="font-size:10px">Operations</div>
+        </div>
+        <div class="xright">
+          <div class="xrole serif">Equipment Operator & Office Assistant</div>
+          <div class="xorg">Trademark Lumber Company - Deer Lake, NL</div>
+          <ul class="xpts"><li>Operated lumber processing equipment under strict safety protocols - zero-incident season.</li><li>Processed payroll with 100% accuracy; supported yard logistics and inventory tracking.</li></ul>
+        </div>
+      </div>
   </div>
-</div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2 class="sec">Skills</h2>
+    <div class="skgrid"><div class="skcol"><div class="label" style="margin-bottom:10px">Programming</div><ul class="sklist"><li>Python</li><li>C</li><li>C++</li></ul></div><div class="skcol"><div class="label" style="margin-bottom:10px">EDA & CAD</div><ul class="sklist"><li>KiCad</li><li>SolidWorks</li><li>Onshape</li></ul></div><div class="skcol"><div class="label" style="margin-bottom:10px">Analysis & simulation</div><ul class="sklist"><li>MATLAB</li><li>PSpice</li></ul></div><div class="skcol"><div class="label" style="margin-bottom:10px">Practice</div><ul class="sklist"><li>PCB design & layout</li><li>Embedded systems</li><li>Sensor integration</li><li>Technical documentation</li></ul></div></div>
+    <div class="certs"><span class="label" style="font-size:10px">Certifications</span><div style="font-size:14px;color:#3c3c44;margin-top:6px">WHMIS · Tech Stewardship Micro-Credential · Excel Essential Training · Full Class 5 Driver's Licence</div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2 class="sec">Get in touch</h2>
+    <a class="cmail" href="mailto:maxwellb@mun.ca">maxwellb@mun.ca</a>
+    <div class="crow">
+      <a href="https://www.linkedin.com/in/maxwellwsbursey" target="_blank">LinkedIn</a>
+      <a href="tel:7096368902">(709) 636-8902</a>
+      <a href="Maxwell_Bursey_Resume_1Page.pdf" target="_blank">Resume (PDF)</a>
+    </div>
+    <div class="meta" style="margin-top:22px">SEEKING CO-OP 2026 · OPEN TO ROLES ACROSS CANADA · RESPONSE WITHIN 24H</div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <span class="meta">© 2026 MAXWELL BURSEY</span>
+    <span class="meta">ST. JOHN'S, NL · MAXWELLBURSEY.GITHUB.IO</span>
+  </div>
+</footer>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  PROJECT DETAIL PAGE - Workstation usage tracking system
+  PROJECT DETAIL PAGE - Analog voltage reference PCB
   TO ADD A NEW PROJECT:
   1. Duplicate this file, rename it (e.g. projects/my-new-project.html)
   2. Edit the title, category, date, facts, and section content below
@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workstation usage tracking system - Maxwell Bursey</title>
+<title>Analog voltage reference PCB - Maxwell Bursey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -63,26 +63,26 @@ figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8890;ma
 <div class="dnav">
   <div class="dnav-in">
     <a href="../index.html" class="serif" style="font-size:15px;font-weight:600;color:#13233c">← Maxwell Bursey</a>
-    <span class="meta">PROJECTS / WORKSTATION USAGE TRACKING SYSTEM</span>
+    <span class="meta">PROJECTS / ANALOG VOLTAGE REFERENCE PCB</span>
   </div>
 </div>
 
 <div class="dwrap">
   <div class="dhead fade">
-    <span class="label">Work term project · The Commons, QEII Library · Oct–Dec 2025</span>
-    <h1>Workstation usage tracking system</h1>
-    <p class="dplain">An automated sensing system that tells library staff which shared laptop stations are actually in use.</p>
+    <span class="label">Personal project · PCB design · Jan–Feb 2026</span>
+    <h1>Analog voltage reference PCB</h1>
+    <p class="dplain">A two-layer board that turns a 3-cell drone battery into a clean, stable 5 V reference for analog measurement.</p>
   </div>
 
-  <div class="dfacts fade fade-2"><div class="dfact"><div class="k">Role</div><div class="v">Co-op engineering student - project owner</div></div><div class="dfact"><div class="k">Timeline</div><div class="v">October – December 2025</div></div><div class="dfact"><div class="k">Setting</div><div class="v">The Commons, QEII Library, Memorial University</div></div><div class="dfact"><div class="k">Deliverables</div><div class="v">Working prototypes · technical report · supervisor presentation</div></div></div>
-  
-  <div class="dsec"><h2>The problem</h2><p>The Commons operates shared laptop workstations in a high-traffic library environment, and staff had no reliable way to know how heavily they were used. Manual observation doesn't scale, and cameras were off the table for privacy reasons. The task: evaluate whether an automated system could classify each station as active or inactive, accurately and without watching anyone.</p></div><div class="dsec"><h2>Approach</h2><p>I owned the project end-to-end - scoping it, researching candidate sensing methods, and prototyping the two most promising: passive infrared (PIR) motion detection at the station, and AC current measurement on the station's power draw. Each prototype was assessed against the criteria that mattered operationally: accuracy, reliability, scalability across many stations, cost, and maintenance burden.</p></div><div class="dsec"><h2>Classification logic</h2><p>Raw sensor data is messy - a person walking past a station is not a user, and a laptop's power draw fluctuates even when idle. I developed classification logic to translate noisy real-world readings into a clean active/inactive state, specifically targeting false positives from transient motion and load fluctuation.</p></div><div class="dsec"><h2>Outcome</h2><p>The work concluded in a formal technical report documenting the research, test methods, and findings, with recommendations that weighed data privacy, scalability, and long-term maintenance. I presented the results to supervisors to support their decision on deployment. Throughout the term I ran weekly supervisor updates and coordinated day-to-day through Slack and Trello.</p></div>
+  <div class="dfacts fade fade-2"><div class="dfact"><div class="k">Role</div><div class="v">Sole designer</div></div><div class="dfact"><div class="k">Timeline</div><div class="v">January – February 2026</div></div><div class="dfact"><div class="k">Tools</div><div class="v">KiCad 8</div></div><div class="dfact"><div class="k">Deliverables</div><div class="v">Gerbers · drill files · BOM · 3D model</div></div></div>
+  <figure><div class="imgbox"><img src="../pcb_render.png" alt="KiCad 3D render - two-layer board, front side"></div><figcaption>FIG. 1 - KiCad 3D render - two-layer board, front side</figcaption></figure>
+  <div class="dsec"><h2>Overview</h2><p>A 3-cell lithium-polymer battery is a convenient portable power source, but its voltage is anything but stable - it swings from roughly 12.6 V fully charged down to about 9 V as it discharges. Any analog measurement circuit powered directly from it inherits that drift. This project set out to design a small board that accepts the raw battery input and produces a steady 5 V analog reference that stays put regardless of the battery's state of charge.</p></div><div class="dsec"><h2>Circuit design</h2><p>The signal chain has four stages. Input protection first: a series diode arrangement guards against reverse battery connection, a realistic failure mode with hand-plugged connectors. An NCP1117 linear regulator then drops the battery voltage to a regulated 5 V rail. A zener reference network derives the stable reference node from that rail, and an MCP6001 rail-to-rail op-amp wired as a unity-gain voltage follower buffers it - delivering the reference at low output impedance so downstream loads can't pull it around. Decoupling capacitors are placed at each stage to keep the rails quiet.</p></div><div class="dsec"><h2>Board layout</h2><p>The layout is a two-layer design with a continuous ground plane on the bottom copper and dedicated power nets. I created a custom footprint for the battery connector, since the exact part wasn't in KiCad's libraries - measuring the physical part and building the footprint from its datasheet drawing. Component placement keeps the analog path short and direct from regulator to reference to output header, with test points (TP1, TP2) placed for bench verification. The silkscreen carries a proper title block: name, project, revision year.</p></div><div class="dsec"><h2>Verification and deliverables</h2><p>The schematic passed a full electrical rules check (ERC) and the layout passed design rules check (DRC) with no violations. From the finished design I generated the complete manufacturing package: Gerber files for every layer, drill files, a bill of materials with manufacturer part numbers, and a 3D model of the assembled board. The board is manufacturing-ready - the render above is the exported 3D visualization.</p></div><div class="dsec"><h2>What I took away</h2><p>This project was my first complete pass through professional PCB workflow: schematic capture, footprint creation, net management, layout under a rules check, and generating real fabrication outputs. The biggest lessons were in the unglamorous parts - library hygiene, footprint verification against datasheets, and thinking about how a human actually assembles and probes the board.</p></div>
 
-  <div class="dtech">PIR motion detection · AC current measurement · classification logic · formal technical report</div>
+  <div class="dtech">NCP1117 linear regulation · zener reference network · MCP6001 rail-to-rail follower · reverse-polarity protection · full ERC/DRC pass</div>
 
   <div class="dpager">
-    <a href="analog-voltage-reference-pcb.html"><span class="sub">← Previous</span>Analog voltage reference PCB</a>
-    <a href="automatic-irrigation-system.html" style="text-align:right"><span class="sub">Next →</span>Automatic irrigation system</a>
+    <span></span>
+    <a href="usage-tracking-system.html" style="text-align:right"><span class="sub">Next →</span>Workstation usage tracking system</a>
   </div>
 </div>
 

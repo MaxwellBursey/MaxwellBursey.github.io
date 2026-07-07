@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  PROJECT DETAIL PAGE - Workstation usage tracking system
+  PROJECT DETAIL PAGE - Password generation program
   TO ADD A NEW PROJECT:
   1. Duplicate this file, rename it (e.g. projects/my-new-project.html)
   2. Edit the title, category, date, facts, and section content below
@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workstation usage tracking system - Maxwell Bursey</title>
+<title>Password generation program - Maxwell Bursey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -63,26 +63,26 @@ figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8890;ma
 <div class="dnav">
   <div class="dnav-in">
     <a href="../index.html" class="serif" style="font-size:15px;font-weight:600;color:#13233c">← Maxwell Bursey</a>
-    <span class="meta">PROJECTS / WORKSTATION USAGE TRACKING SYSTEM</span>
+    <span class="meta">PROJECTS / PASSWORD GENERATION PROGRAM</span>
   </div>
 </div>
 
 <div class="dwrap">
   <div class="dhead fade">
-    <span class="label">Work term project · The Commons, QEII Library · Oct–Dec 2025</span>
-    <h1>Workstation usage tracking system</h1>
-    <p class="dplain">An automated sensing system that tells library staff which shared laptop stations are actually in use.</p>
+    <span class="label">Academic · Introduction to programming · Sep–Dec 2023</span>
+    <h1>Password generation program</h1>
+    <p class="dplain">A Python command-line tool that generates policy-compliant passwords with cryptographic randomness.</p>
   </div>
 
-  <div class="dfacts fade fade-2"><div class="dfact"><div class="k">Role</div><div class="v">Co-op engineering student - project owner</div></div><div class="dfact"><div class="k">Timeline</div><div class="v">October – December 2025</div></div><div class="dfact"><div class="k">Setting</div><div class="v">The Commons, QEII Library, Memorial University</div></div><div class="dfact"><div class="k">Deliverables</div><div class="v">Working prototypes · technical report · supervisor presentation</div></div></div>
+  <div class="dfacts fade fade-2"><div class="dfact"><div class="k">Role</div><div class="v">Sole developer</div></div><div class="dfact"><div class="k">Timeline</div><div class="v">September – December 2023</div></div><div class="dfact"><div class="k">Language</div><div class="v">Python</div></div><div class="dfact"><div class="k">Deliverables</div><div class="v">Working CLI tool · test cases · class presentation</div></div></div>
   
-  <div class="dsec"><h2>The problem</h2><p>The Commons operates shared laptop workstations in a high-traffic library environment, and staff had no reliable way to know how heavily they were used. Manual observation doesn't scale, and cameras were off the table for privacy reasons. The task: evaluate whether an automated system could classify each station as active or inactive, accurately and without watching anyone.</p></div><div class="dsec"><h2>Approach</h2><p>I owned the project end-to-end - scoping it, researching candidate sensing methods, and prototyping the two most promising: passive infrared (PIR) motion detection at the station, and AC current measurement on the station's power draw. Each prototype was assessed against the criteria that mattered operationally: accuracy, reliability, scalability across many stations, cost, and maintenance burden.</p></div><div class="dsec"><h2>Classification logic</h2><p>Raw sensor data is messy - a person walking past a station is not a user, and a laptop's power draw fluctuates even when idle. I developed classification logic to translate noisy real-world readings into a clean active/inactive state, specifically targeting false positives from transient motion and load fluctuation.</p></div><div class="dsec"><h2>Outcome</h2><p>The work concluded in a formal technical report documenting the research, test methods, and findings, with recommendations that weighed data privacy, scalability, and long-term maintenance. I presented the results to supervisors to support their decision on deployment. Throughout the term I ran weekly supervisor updates and coordinated day-to-day through Slack and Trello.</p></div>
+  <div class="dsec"><h2>Overview</h2><p>A command-line password generator that takes user constraints - length, required character classes - and produces passwords that satisfy them, using Python's secrets module for cryptographically secure randomness rather than the predictable random module.</p></div><div class="dsec"><h2>Testing and delivery</h2><p>The program was validated through systematic test cases covering constraint combinations and edge cases, with issues debugged and resolved along the way. I closed the project by building and delivering a presentation to the class walking through the design and the security reasoning behind the implementation choices.</p></div>
 
-  <div class="dtech">PIR motion detection · AC current measurement · classification logic · formal technical report</div>
+  <div class="dtech">Python · secrets module · character-class constraints · systematic testing</div>
 
   <div class="dpager">
-    <a href="analog-voltage-reference-pcb.html"><span class="sub">← Previous</span>Analog voltage reference PCB</a>
-    <a href="automatic-irrigation-system.html" style="text-align:right"><span class="sub">Next →</span>Automatic irrigation system</a>
+    <a href="snow-clearing-device.html"><span class="sub">← Previous</span>Snow-clearing device for elderly users</a>
+    <span></span>
   </div>
 </div>
 
